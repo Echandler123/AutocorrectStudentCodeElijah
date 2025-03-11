@@ -8,7 +8,7 @@ import java.io.IOException;
  * A command-line tool to suggest similar words when given one not in the dictionary.
  * </p>
  * @author Zach Blick
- * @author YOUR NAME HERE
+ * @author Elijah Chandler
  */
 public class Autocorrect {
 
@@ -28,8 +28,19 @@ public class Autocorrect {
      * to threshold, sorted by edit distnace, then sorted alphabetically.
      */
     public String[] runTest(String typed) {
-
         return new String[0];
+    }
+    public int levDist(String s1, String s2) {
+        if(s1.length() == 0) {
+            return s2.length();
+        }
+        if(s2.length() == 0) {
+            return s1.length();
+        }
+        if(s1.charAt(0) == s2.charAt(0)) {
+            return levDist(s1.substring(s1.length()-1), s2.substring(s1.length()-1));
+        }
+        return 0;
     }
 
 
