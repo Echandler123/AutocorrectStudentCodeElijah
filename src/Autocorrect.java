@@ -18,7 +18,6 @@ public class Autocorrect {
      * @param threshold The maximum number of edits a suggestion can have.
      */
     public Autocorrect(String[] words, int threshold) {
-
     }
 
     /**
@@ -31,16 +30,26 @@ public class Autocorrect {
         return new String[0];
     }
     public int levDist(String s1, String s2) {
-        if(s1.length() == 0) {
-            return s2.length();
+        if(s1.isEmpty()) {
+            return 0;
         }
-        if(s2.length() == 0) {
-            return s1.length();
+        if(s2.isEmpty()) {
+            return 0;
         }
-        if(s1.charAt(0) == s2.charAt(0)) {
-            return levDist(s1.substring(s1.length()-1), s2.substring(s1.length()-1));
+        int[][] distances = new int[s1.length()][s2.length()];
+        for(int i = 1; i < s1.length() + 1; i ++) {
+            for(int j = 1; j < s2.length() + 1; j ++) {
+                if(s1.charAt(i) == s2.charAt(j)) {
+                    distances[i][j] = distances[i-1][j-1];
+                }
+                else {
+                    distances[i][j] = Math.min(Math.min(distances[i-1][j], distances[i][j-1]),distances[i-1][j-1])+ 1;
+                }
+            }
+
         }
-        return 0;
+        return distances[s1.length()][s2.length()];
+
     }
 
 
