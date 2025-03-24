@@ -1,0 +1,2 @@
+Read Me 
+This project is a autocorrect Java program that works through the command line. It works by suggesting words that share the most similarities with the one typed in by the user. To find the how similar a word is to the typed input we use a levenshtein distance algorithm to calculate the edit distance between words and from that determine similarity. Words that are of a distance less than the threshold are not printed so only the most similar words are suggested.
