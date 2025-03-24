@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Autocorrect
@@ -20,14 +21,9 @@ public class Autocorrect {
      */
     private String[] words;
     private int threshold;
-    private Trie trie;
     public Autocorrect(String[] words, int threshold) {
         this.words = words;
         this.threshold = threshold;
-        trie = new Trie();
-        for(String word: words) {
-            trie.insert(word);
-        }
     }
 
     /**
@@ -38,9 +34,6 @@ public class Autocorrect {
      */
     public String[] runTest(String typed) {
         ArrayList<String> suggestions = new ArrayList<>();
-        if(trie.lookup(typed)) {
-            return new String[]{typed};
-        }
         for(int i = 0; i < words.length; i++) {
             if(levDist(typed, words[i]) <= threshold) {
                 suggestions.add(words[i]);
@@ -118,6 +111,23 @@ public class Autocorrect {
         }
         catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+    public static void main(String[] args) {
+        String[] words = loadDictionary("large");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter a word: ");
+        String typed = scanner.nextLine();
+        int threshold = 2;
+        Autocorrect auto = new Autocorrect(words, threshold);
+        while(!typed.equals("")) {
+            System.out.println("Suggestions: ");
+            String[] suggestions = auto.runTest(typed);
+            for(String suggestion: suggestions) {
+                System.out.println(suggestion);
+            }
+            System.out.println("Enter a word to check: ");
+            typed = scanner.nextLine();
         }
     }
 }
